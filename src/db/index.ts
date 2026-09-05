@@ -3,22 +3,21 @@ import { Pool } from "pg";
 
 const databaseUrl = process.env.DATABASE_URL;
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required");
-}
-
 const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;
 };
 
-export const pool =
-  globalForDb.__arenaNextJsPostgresqlPool ??
-  new Pool({
-    connectionString: databaseUrl,
-  });
+// اگر DATABASE_URL وجود نداشت، خطای ساختاری نمی‌دهد تا بیلد ورسل بگذرد
+export const pool = databaseUrl
+  ? globalForDb.__arenaNextJsPostgresqlPool ??
+    new Pool({
+      connectionString: databaseUrl,
+    })
+  : null;
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production" && pool) {
   globalForDb.__arenaNextJsPostgresqlPool = pool;
 }
 
-export const db = drizzle(pool);
+// اگر pool وجود داشته باشد drizzle را می‌سازد، در غیر این صورت null یا یک Proxy خالی برمی‌گرداند
+export const db = pool ? drizzle(pool) : ({} as ReturnType<typeof drizzle>);
