@@ -1,6 +1,6 @@
 # prima-mihan
 **DEMO**
-![Image](https://github.com/AmirAhadi-web/prima-mihan/issues/1#issue-5361232320)
+![Image](https://github.com/user-attachments/assets/5c384c85-cbe3-45bf-bd99-16fc1db33ebb.jpg)
 - [Demo Project](https://prima-mihan.vercel.app/)
 - Developed by AmirMohammad Ahadi
 - Created - 2026-06-09
